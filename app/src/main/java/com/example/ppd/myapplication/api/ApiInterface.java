@@ -13,6 +13,6 @@ import retrofit2.http.GET;
  */
 public interface ApiInterface
 {
-    @GET("json/glide.json/")
+    @GET("json/glide.json")
     Call<List<MovieRequest>> getMovies();
 }

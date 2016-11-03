@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<LinearLayout
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <android.support.v7.widget.CardView
+        android:layout_width="125dp"
+        android:layout_height="220dp" >
+        <TextView
+            android:id="@+id/txt_header_item"
+            android:gravity="center_horizontal|center_vertical"
+            android:textSize="25dp"
+            android:text="Header"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+        </android.support.v7.widget.CardView>
+</LinearLayout>
+</layout>

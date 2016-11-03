@@ -4,20 +4,15 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
-import android.view.View;
 
 import com.example.ppd.myapplication.adpater.MovieAdapter;
 import com.example.ppd.myapplication.api.ApiInterface;
 import com.example.ppd.myapplication.api.MyApplication;
 import com.example.ppd.myapplication.databinding.ActivityHomeBinding;
-//import com.example.ppd.myapplication.model.List<MovieRequest>
+import com.example.ppd.myapplication.databinding.ActivityHomeTwoBinding;
 import com.example.ppd.myapplication.model.MovieRequest;
 
-
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -25,25 +20,19 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
- * Created by anish on 28-10-2016.
+ * Created by anish on 03-11-2016.
  */
-public class HomeActivty extends AppCompatActivity
+public class HeaderFooterActivity extends AppCompatActivity
 {
-
-    ActivityHomeBinding activityHomeBinding;
+    ActivityHomeTwoBinding activityHomeTwoBinding;
     List<MovieRequest> movieItems;
     MovieAdapter movieAdapter;
     CatLoadView mCatView;
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState)
-    {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        activityHomeBinding= DataBindingUtil.setContentView(this,R.layout.activity_home);
-
-        mCatView=new CatLoadView();
-
-
+       activityHomeTwoBinding= DataBindingUtil.setContentView(this,R.layout.activity_home_two);
         ApiInterface service= MyApplication.retrofit.create(ApiInterface.class);
         Call<List<MovieRequest>> movieRequestCall=service.getMovies();
 
@@ -51,7 +40,7 @@ public class HomeActivty extends AppCompatActivity
         movieRequestCall.enqueue(new Callback<List<MovieRequest>>() {
             @Override
             public void onResponse(Call<List<MovieRequest>> call, Response<List<MovieRequest>> response) {
-            mCatView.dismiss();
+                mCatView.dismiss();
 
                 Log.e("1-->",response.code()+"");
 
@@ -62,7 +51,7 @@ public class HomeActivty extends AppCompatActivity
 
                 for(int i=0;i<response.body().size();i++)
                 {
-                   movieItems.add(response.body().get(i));
+                    movieItems.add(response.body().get(i));
                 }
 
                 movieAdapter.setItems(movieItems);
@@ -75,31 +64,7 @@ public class HomeActivty extends AppCompatActivity
             }
 
         });
-        init();
-    }
-
-    private void init()
-    {
-        movieItems=new ArrayList<MovieRequest>();
-
-        movieAdapter= new MovieAdapter(movieItems,this);
-
-        activityHomeBinding.rvList.setLayoutManager(new GridLayoutManager(this,3));
-        activityHomeBinding.rvList.setAdapter(movieAdapter);
 
 
-    }
-
-    public void GridSelected(View view) {
-        activityHomeBinding.rvList.setLayoutManager(new GridLayoutManager(this,3));
-        activityHomeBinding.rvList.setAdapter(movieAdapter);
-
-    }
-
-    public void linearSelected(View view) {
-
-       activityHomeBinding.rvList.setLayoutManager(new LinearLayoutManager(this));
-        //activityHomeBinding.rvList.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
-        activityHomeBinding.rvList.setAdapter(movieAdapter);
     }
 }

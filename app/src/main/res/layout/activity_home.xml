@@ -22,7 +22,13 @@
 
             <Button
                 android:onClick="linearSelected"
-                android:text="Linear"
+                android:text="Linear horizontal"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+            <Button
+                android:onClick="linearVerticalSelected"
+                android:text="Linear vertical"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />

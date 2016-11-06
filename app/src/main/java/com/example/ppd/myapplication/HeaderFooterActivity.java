@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -33,11 +34,15 @@ public class HeaderFooterActivity extends AppCompatActivity
     List<MovieRequest> movieItems;
     HeaderFooterAdapter headerFooterAdapter;
     CatLoadView mCatView;
+   // Toolbar toolbar;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
        activityHomeTwoBinding= DataBindingUtil.setContentView(this,R.layout.activity_home_two);
+
+       setSupportActionBar(activityHomeTwoBinding.toolbar);
+
         ApiInterface service= MyApplication.retrofit.create(ApiInterface.class);
         Call<List<MovieRequest>> movieRequestCall=service.getMovies();
         mCatView=new CatLoadView();
@@ -89,7 +94,12 @@ public class HeaderFooterActivity extends AppCompatActivity
     private void init()
     {
         movieItems= new ArrayList<>();
-        headerFooterAdapter= new HeaderFooterAdapter(movieItems,this);
+        headerFooterAdapter= new HeaderFooterAdapter(movieItems, this, new HeaderFooterAdapter.OnItemClickedListener() {
+            @Override
+            public void onItemClicked(int position) {
+                Toast.makeText(HeaderFooterActivity.this, "hello", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         activityHomeTwoBinding.rvList.setLayoutManager(new LinearLayoutManager(this));
         activityHomeTwoBinding.rvList.setAdapter(headerFooterAdapter);

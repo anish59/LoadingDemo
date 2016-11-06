@@ -92,7 +92,12 @@ public class HomeActivty extends AppCompatActivity
     {
         movieItems=new ArrayList<MovieRequest>();
 
-        movieAdapter= new MovieAdapter(movieItems,this);
+        movieAdapter= new MovieAdapter(movieItems, this, new MovieAdapter.OnItemClickedListener() {
+            @Override
+            public void onItemClicked(int position) {
+                Toast.makeText(HomeActivty.this, "Name:-"+movieItems.get(position).getName(), Toast.LENGTH_SHORT).show();
+            }
+        });
 
         activityHomeBinding.rvList.setLayoutManager(new GridLayoutManager(this,3));
         activityHomeBinding.rvList.setAdapter(movieAdapter);

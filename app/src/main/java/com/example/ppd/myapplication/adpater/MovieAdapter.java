@@ -25,10 +25,17 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
     List<MovieRequest> items;
     ActivityRowBinding activityRowBinding;
     Context context;
+    OnItemClickedListener mOnItemClickedListener;
 
-    public MovieAdapter(List<MovieRequest> items, Context context) {
+    public interface OnItemClickedListener
+    {
+        void onItemClicked(int position);
+    }
+
+    public MovieAdapter(List<MovieRequest> items, Context context,OnItemClickedListener onItemClickedListener) {
         this.items = items;
         this.context = context;
+        this.mOnItemClickedListener=onItemClickedListener;
     }
 
 
@@ -40,7 +47,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
     }
 
     @Override
-    public void onBindViewHolder(MovieViewHolder holder, int position) {
+    public void onBindViewHolder(MovieViewHolder holder, final int position) {
         //Glide.with(context)
         // .load(items.get(position).getMedium()).thumbnail(0.5f).into((MovieViewHolder)holder.moviePic);
         holder.name.setText(items.get(position).getName());
@@ -55,6 +62,13 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
             Log.d("Test", "Empty");
         }
 
+        activityRowBinding.getRoot().setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                mOnItemClickedListener.onItemClicked(position);
+                return false;
+            }
+        });
     }
 
     public void setItems(List<MovieRequest> items) {

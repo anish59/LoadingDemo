@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.ppd.myapplication.R;
-import com.example.ppd.myapplication.databinding.ActivityHomeTwoBinding;
 import com.example.ppd.myapplication.databinding.ActivityRowBinding;
 import com.example.ppd.myapplication.databinding.FooterBinding;
 import com.example.ppd.myapplication.databinding.HeaderItemsBinding;
@@ -31,15 +30,21 @@ public class HeaderFooterAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     FooterBinding footerBinding;
     List<MovieRequest> items;
     Context context;
+    OnItemClickedListener monItemClickedListener;
+
+    public interface OnItemClickedListener{
+        void onItemClicked(int position);
+    }
 
     private static final int TYPE_HEADER = 0;
     private static final int TYPE_ITEM = 1;
     private static final int TYPE_FOOTER = 2;
 
 
-    public HeaderFooterAdapter(List<MovieRequest> items, Context context) {
+    public HeaderFooterAdapter(List<MovieRequest> items, Context context, OnItemClickedListener onItemClickedListener) {
         this.items = items;
         this.context = context;
+        this.monItemClickedListener =onItemClickedListener;
     }
 
     @Override
@@ -72,7 +77,7 @@ public class HeaderFooterAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position)
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position)
     {
 //        Log.e("total pos", getItemCount()+"" );
         if(holder instanceof HeaderViewholder)
@@ -106,7 +111,23 @@ public class HeaderFooterAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 Log.d("Test", "Empty");
             }
 
+            activityRowBinding.getRoot().setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    monItemClickedListener.onItemClicked(position);
+                    return false;
+                }
+            });
+
         }
+
+        /*activityRowBinding.getRoot().setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                return false;
+            }
+        });*/
+
 
     }
 
@@ -154,6 +175,8 @@ public class HeaderFooterAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
     }
 
+
+
     class HeaderViewholder extends RecyclerView.ViewHolder{
     TextView header;
 
@@ -178,5 +201,6 @@ public class HeaderFooterAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
         }
     }
+
 
 }
